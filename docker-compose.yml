@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ledger
+      POSTGRES_PASSWORD: ledger_dev
+      POSTGRES_DB: ledger
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      - 'postgres'
+      - '-c'
+      - 'log_statement=all'
+      - '-c'
+      - 'shared_buffers=256MB'
+
+volumes:
+  pgdata:
